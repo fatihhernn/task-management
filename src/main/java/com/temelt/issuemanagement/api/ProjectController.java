@@ -2,6 +2,7 @@ package com.temelt.issuemanagement.api;
 
 import com.temelt.issuemanagement.dto.ProjectDto;
 import com.temelt.issuemanagement.service.implementation.ProjectServiceImp;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,5 +29,14 @@ public class ProjectController {
        return ResponseEntity.ok(projectServiceImp.save(project));
     }
 
+    @PutMapping("/{id}")
+    public  ResponseEntity<ProjectDto> createRepository(@PathVariable(value = "id",required = true) Long id, @Valid @RequestBody ProjectDto project){
+        return ResponseEntity.ok(projectServiceImp.update(id,project)) ;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> delete (@PathVariable(value = "id",required = true) Long id){
+        return ResponseEntity.ok(projectServiceImp.delete(id));
+    }
 
 }
