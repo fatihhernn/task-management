@@ -1,12 +1,17 @@
 package com.temelt.issuemanagement.service.implementation;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.temelt.issuemanagement.dto.ProjectDto;
 import com.temelt.issuemanagement.entity.Project;
 import com.temelt.issuemanagement.repository.ProjectRepository;
+import com.temelt.issuemanagement.util.TPage;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.temelt.issuemanagement.service.ProjectService;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -14,40 +19,49 @@ public class ProjectServiceImp implements ProjectService {
 
 
     private final ProjectRepository projectRepository;
+    private final ModelMapper modelMapper;
 
-    public ProjectServiceImp(ProjectRepository projectRepository){
+    public ProjectServiceImp(ProjectRepository projectRepository, ModelMapper modelMapper){
         this.projectRepository=projectRepository;
+        this.modelMapper=modelMapper;
     }
 
     @Override
-    public Project save(Project project) {
+    public ProjectDto save(ProjectDto project) {
 
-        if (project.getProjectCode()==null) {
-            throw new IllegalArgumentException("Project Code cannot be null");
+        Project projectCheck=projectRepository.getByProjectCode(project.getProjectCode());
+
+        if (projectCheck!=null) {
+            throw new IllegalArgumentException("Project Code already exist");
         }
-
-        return projectRepository.save(project);
+        Project p= modelMapper.map(project,Project.class);
+        p=projectRepository.save(p);
+        project.setId(p.getId());
+        return project;
     }
 
     @Override
-    public List<Project> getByProjectCode(String projectCode) {
-        return projectRepository.getByProjectCode(projectCode);
+    public ProjectDto getByProjectCode(String projectCode) {
+        return null;
     }
 
     @Override
-    public List<Project> getByProjectCodeContains(String projectCode) {
-        return projectRepository.getByProjectCodeContains(projectCode);
+    public ProjectDto getByProjectCodeContains(String projectCode) {
+        return null;
     }
 
     @Override
-    public Project getById(Long id) {
-        return projectRepository.getOne(id);
+    public ProjectDto getById(Long id) {
+        Project p= projectRepository.getOne(id);
+        return modelMapper.map(p,ProjectDto.class);
     }
 
     @Override
-    public Page<Project> getAllPageable(Pageable pageable) {
-
-        return projectRepository.findAll(pageable);
+    public TPage<ProjectDto> getAllPageable(Pageable pageable) {
+        Page<Project> data=projectRepository.findAll(pageable);
+        TPage<ProjectDto> response=new TPage<ProjectDto>();
+        response.setStat(data, Arrays.asList(modelMapper.map(data.getContent(),ProjectDto[].class)));
+        return response;
     }
 
     @Override

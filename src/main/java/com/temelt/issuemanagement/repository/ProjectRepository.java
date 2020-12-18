@@ -12,7 +12,7 @@ import java.util.List;
 @Repository//spring 2 den sonra bunu koymaya gerek kalmadı
 public interface ProjectRepository extends JpaRepository<Project,Long> {
 
-    List<Project> getByProjectCode(String projectCode);
+    Project getByProjectCode(String projectCode);
 
     List<Project> getByProjectCodeContains(String projectCode);
 
