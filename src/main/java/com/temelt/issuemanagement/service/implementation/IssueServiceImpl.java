@@ -1,6 +1,8 @@
 package com.temelt.issuemanagement.service.implementation;
 
+import com.temelt.issuemanagement.dto.ProjectDto;
 import com.temelt.issuemanagement.entity.Issue;
+import com.temelt.issuemanagement.entity.Project;
 import com.temelt.issuemanagement.repository.IssueRepository;
 import com.temelt.issuemanagement.dto.IssueDto;
 import org.modelmapper.ModelMapper;
@@ -36,15 +38,14 @@ public class IssueServiceImpl implements IssueService {
 
         //dışardan gelen veriyi içerdeki modele dönüştür, içerdeki modeli de veritabanına kaydettikten sonra, o nesneyi dto ya dönüştürüp geri ver.
         Issue issueDb= modelMapper.map(issue,Issue.class);
-
         issueDb= issueRepository.save(issueDb);
-
         return modelMapper.map(issueDb,IssueDto.class);
     }
 
     @Override
     public IssueDto getById(Long id) {
-        return null;
+        Issue p= issueRepository.getOne(id);
+        return modelMapper.map(p, IssueDto.class);
     }
 
     @Override
@@ -60,7 +61,12 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public Boolean delete(IssueDto issueHistory) {
+    public Boolean delete(Long issueId) {
+        return null;
+    }
+
+    @Override
+    public IssueDto update(Long id, IssueDto issue) {
         return null;
     }
 }
