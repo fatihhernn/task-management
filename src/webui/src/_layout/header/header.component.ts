@@ -1,0 +1,47 @@
+import {Component, OnInit} from "@angular/core";
+import {NavigationEnd, Router} from "@angular/router";
+import {faUser} from '@fortawesome/free-solid-svg-icons';
+
+@Component({
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss']
+})
+export class HeaderComponent implements OnInit {
+  pushRightClass: string = 'push-right';
+  collapseClass: string = 'collapsed';
+  isCollapsed = false;
+  user = faUser;
+
+  activeUser = {};
+
+  constructor(public router: Router) {
+    this.router.events.subscribe(val => {
+      if (
+        val instanceof NavigationEnd &&
+        window.innerWidth <= 992 &&
+        this.isToggled()
+      ) {
+        this.toggleSidebar();
+      }
+    });
+  }
+
+  ngOnInit() {
+
+  }
+
+  isToggled(): boolean {
+    const dom: any = document.querySelector('aside');
+    return (dom) ? dom.classList.contains(this.collapseClass) : false;
+  }
+
+  toggleSidebar() {
+    const dom: any = document.querySelector('aside');
+    (dom) ? dom.classList.toggle(this.collapseClass) : '';
+    const cdom: any = document.querySelector('#main-container');
+    (cdom) ? cdom.classList.toggle(this.collapseClass) : '';
+  }
+
+
+}
