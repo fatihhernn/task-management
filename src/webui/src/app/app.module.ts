@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-//import {AppLayoutComponent, FooterComponent, HeaderComponent, SidebarComponent} from "./layout";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
@@ -12,6 +11,8 @@ import {HeaderComponent} from "./_layout/header/header.component";
 import {SidebarComponent} from "./_layout/sidebar/sidebar.component";
 import {ApiService} from "./services/api.service";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
+import {ProjectService} from "./services/Shared/project.service";
+import {IssueService} from "./services/Shared/issue.service";
 
 export const createTranslateLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -23,7 +24,7 @@ export const createTranslateLoader = (http: HttpClient) => {
     AppLayoutComponent,
     FooterComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +39,7 @@ export const createTranslateLoader = (http: HttpClient) => {
       }
     })
   ],
-  providers: [ApiService],
+  providers: [ApiService,ProjectService,IssueService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
