@@ -6,10 +6,12 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {AppRoutingModule} from "./app.routing.module";
-import {AppLayoutComponent} from "../_layout/app-layout/app-layout.component";
-import {FooterComponent} from "../_layout/footer/footer.component";
-import {HeaderComponent} from "../_layout/header/header.component";
-import {SidebarComponent} from "../_layout/sidebar/sidebar.component";
+import {AppLayoutComponent} from "./_layout/app-layout/app-layout.component";
+import {FooterComponent} from "./_layout/footer/footer.component";
+import {HeaderComponent} from "./_layout/header/header.component";
+import {SidebarComponent} from "./_layout/sidebar/sidebar.component";
+import {ApiService} from "./services/api.service";
+import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 
 export const createTranslateLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -27,6 +29,7 @@ export const createTranslateLoader = (http: HttpClient) => {
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    NgxDatatableModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -35,7 +38,7 @@ export const createTranslateLoader = (http: HttpClient) => {
       }
     })
   ],
-  providers: [],
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

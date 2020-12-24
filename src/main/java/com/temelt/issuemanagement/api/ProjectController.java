@@ -18,6 +18,7 @@ import javax.validation.Valid;
 @RequestMapping(ApiPaths.ProjectCtrl.CTRL)
 @Api(value = "Project APIs")
 @Slf4j
+
 public class ProjectController {
 
     private final ProjectServiceImp projectServiceImp;

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IssueComponent } from './issue.component';
 import {IssueRoutingModule} from "./issue.routing.module";
+import {IssueService} from "../../services/Shared/issue.service";
 
 
 
@@ -11,6 +12,7 @@ import {IssueRoutingModule} from "./issue.routing.module";
     CommonModule,
     IssueRoutingModule
   ],
+  providers:[IssueService],
   declarations: [IssueComponent]
 
 })
