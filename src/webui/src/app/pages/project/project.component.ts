@@ -2,6 +2,7 @@ import {Component, OnInit, TemplateRef} from '@angular/core';
 import {ProjectService} from "../../services/Shared/project.service";
 import {Page} from "../../common/page";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-project',
@@ -11,7 +12,7 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap";
 export class ProjectComponent implements OnInit {
 
   modalRef!: BsModalRef
-
+  projectForm!:FormGroup;
   page = new Page();
 
   cols=[
@@ -21,18 +22,42 @@ export class ProjectComponent implements OnInit {
   ]
   rows = [];
 
-  constructor(private projectService: ProjectService, private modalService:BsModalService) {
+  constructor(private projectService: ProjectService, private modalService:BsModalService,private formBuilder:FormBuilder) {
 
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
 
     this.setPage({offset: 0});
 
+    this.projectForm =  this.formBuilder.group({
+        'projectCode':[null,[Validators.required,Validators.minLength(2),Validators.maxLength(10)]],
+        'projectName':[null,[Validators.required,Validators.minLength(4)]]
+
+    });
+
   }
 
+  get f() { return this.projectForm.controls }//arayüzdeki validatiınlara buradan erişecek
 
 
+  saveProject(){
+    if (!this.projectForm.valid){
+      return;
+    }
+    this.projectService.createProject(this.projectForm.value).subscribe(
+      response=>{
+        console.log(response);
+      }
+
+    )
+    this.setPage(this.page);
+  }
+
+  closeAndResetModal(){
+    this.projectForm.reset();
+    this.modalRef.hide();
+  }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
