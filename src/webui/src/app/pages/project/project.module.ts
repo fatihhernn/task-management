@@ -6,16 +6,18 @@ import {ProjectService} from "../../services/Shared/project.service";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {SharedModule} from "../../shared/shared.module";
 import {BsModalService} from "ngx-bootstrap";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ProjectRoutingModule,
-    NgxDatatableModule,
-    SharedModule
-  ],
+    imports: [
+        CommonModule,
+        ProjectRoutingModule,
+        NgxDatatableModule,
+        SharedModule,
+        ReactiveFormsModule
+    ],
   providers:[ProjectService,BsModalService],
   declarations: [ProjectComponent]
 
