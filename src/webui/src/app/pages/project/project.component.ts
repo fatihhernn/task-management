@@ -1,8 +1,9 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {ProjectService} from "../../services/Shared/project.service";
+import {ProjectService} from "../../services/project.service";
 import {Page} from "../../common/page";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ConfirmationComponent} from "../../shared/confirmation/confirmation.component";
 
 @Component({
   selector: 'app-project',
@@ -22,7 +23,9 @@ export class ProjectComponent implements OnInit {
   ]
   rows = [];
 
-  constructor(private projectService: ProjectService, private modalService:BsModalService,private formBuilder:FormBuilder) {
+  constructor(private projectService: ProjectService,
+              private modalService:BsModalService,
+              private formBuilder:FormBuilder) {
 
   }
 
@@ -45,13 +48,17 @@ export class ProjectComponent implements OnInit {
     if (!this.projectForm.valid){
       return;
     }
-    this.projectService.createProject(this.projectForm.value).subscribe(
-      response=>{
-        console.log(response);
-      }
 
+    this.projectService.createProject(this.projectForm.value).subscribe(
+      response => {
+
+        console.log(response);
+        this.closeAndResetModal();
+        this.setPage({offset: 0});
+
+
+      }
     )
-    this.setPage(this.page);
   }
 
   closeAndResetModal(){
@@ -71,4 +78,22 @@ export class ProjectComponent implements OnInit {
       this.rows = pagedData.content;
     });
   }
+  showDeleteConfimation(){
+    const modal=this.modalService.show(ConfirmationComponent);
+    (<ConfirmationComponent>modal.content).showConfirmation(
+      'Test Header Content',
+      'Test Body Content'
+    );
+    (<ConfirmationComponent>modal.content).onClose.subscribe(result=>{
+      if (result===true){
+        console.log("Yes")
+      }else if (result===false){
+        console.log(false);
+      }
+    })
+}
+
+
+
+
 }

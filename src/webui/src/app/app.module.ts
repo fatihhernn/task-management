@@ -11,8 +11,12 @@ import {HeaderComponent} from "./_layout/header/header.component";
 import {SidebarComponent} from "./_layout/sidebar/sidebar.component";
 import {ApiService} from "./services/api.service";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
-import {ProjectService} from "./services/Shared/project.service";
-import {IssueService} from "./services/Shared/issue.service";
+import {ProjectService} from "./services/project.service";
+import {IssueService} from "./services/issue.service";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {BsDatepickerModule, BsDropdownModule, CollapseModule, ModalModule, PaginationModule} from "ngx-bootstrap";
+import {ToastNoAnimation, ToastNoAnimationModule, ToastrModule} from "ngx-toastr";
 
 export const createTranslateLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -25,12 +29,34 @@ export const createTranslateLoader = (http: HttpClient) => {
     FooterComponent,
     HeaderComponent,
     SidebarComponent,
+
+
+
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     AppRoutingModule,
     NgxDatatableModule,
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    NgxDatatableModule,
+    FontAwesomeModule,
+    CollapseModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
+    PaginationModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    ToastNoAnimationModule,
+    ToastrModule.forRoot({
+      toastComponent: ToastNoAnimation,
+      maxOpened: 1,
+      autoDismiss: true
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -39,7 +65,10 @@ export const createTranslateLoader = (http: HttpClient) => {
       }
     })
   ],
-  providers: [ApiService,ProjectService,IssueService],
+  providers: [
+    ApiService,
+    ProjectService,
+    IssueService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
