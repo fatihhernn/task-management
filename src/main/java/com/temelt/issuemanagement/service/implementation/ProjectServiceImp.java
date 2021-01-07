@@ -32,7 +32,7 @@ public class ProjectServiceImp implements ProjectService {
         Project projectCheck=projectRepository.getByProjectCode(project.getProjectCode());
 
         if (projectCheck!=null) {
-            throw new IllegalArgumentException("Project Code already exist");
+            throw new IllegalArgumentException("Project Code already exist!!");
         }
         Project p= modelMapper.map(project,Project.class);
         p=projectRepository.save(p);
