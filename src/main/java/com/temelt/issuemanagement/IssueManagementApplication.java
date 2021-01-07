@@ -18,11 +18,14 @@ public class IssueManagementApplication {
 		SpringApplication.run(IssueManagementApplication.class, args);
 	}
 
+
+
 	@Bean
 	public ModelMapper getModelMapper(){
-		ModelMapper modelMapper=new ModelMapper();
-		//modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration() .setMatchingStrategy(MatchingStrategies.STRICT);
 		return modelMapper;
+
 	}
 
 
@@ -35,6 +38,7 @@ public class IssueManagementApplication {
 		});
 		return factory;
 	}
+
 
 
 
